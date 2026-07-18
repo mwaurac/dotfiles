@@ -1,0 +1,74 @@
+configuration {
+    modi: "drun,run";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    drun-display-format: "{name}";
+    font: "Fira Code 10";
+}
+
+* {
+    bg:         #1e1e2e;
+    bg-alt:     #313244;
+    fg:         #cdd6f4;
+    fg-alt:     #6c7086;
+    accent:     #cba6f7;
+
+    background-color: @bg;
+    text-color: @fg;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 420px;
+    border: 2px;
+    border-color: @accent;
+    border-radius: 10px;
+    background-color: @bg;
+}
+
+mainbox {
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    children: [ "prompt", "entry" ];
+    background-color: @bg-alt;
+    padding: 10px;
+}
+
+prompt {
+    text-color: @accent;
+    str: "󰍉";
+    padding: 0px 8px 0px 0px;
+}
+
+entry {
+    placeholder: "Search…";
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    spacing: 6px;
+    padding: 8px;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px;
+    border-radius: 6px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color: @bg;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    text-color: inherit;
+}

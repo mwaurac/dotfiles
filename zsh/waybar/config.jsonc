@@ -1,0 +1,65 @@
+{
+  "layer": "top",
+  "height": 19,
+  "spacing": 2,
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["custom/mako", "network", "pulseaudio", "battery"],
+
+  "hyprland/workspaces": {
+    "format": "{id}",
+    "on-click": "activate"
+  },
+
+  "clock": {
+    "format": "󰥔 {:%H:%M}",
+    "tooltip-format": "{:%A, %d %B %Y}"
+  },
+
+  "network": {
+    "format-wifi": "󰤨 {essid}",
+    "format-ethernet": "󰈀 Ethernet",
+    "format-disconnected": "󰤭 Offline",
+    "tooltip-format": "{ipaddr} • {signalStrength}%"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 Muted",
+    "format-icons": {
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-icons": [
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ],
+    "states": {
+      "warning": 25,
+      "critical": 10
+    }
+  },
+
+  "custom/mako": {
+    "format": "󰂚",
+    "on-click": "makoctl dismiss",
+    "tooltip": false
+  }
+}

@@ -1,0 +1,80 @@
+/* Waybar — Catppuccin Mocha */
+/* 19px bar ≈ 0.5cm on 840 G3 1920x1080 14" panel */
+
+* {
+  font-family: "FiraCode Nerd Font";
+  font-size: 10px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: #1e1e2e; /* Base */
+  color: #cdd6f4;      /* Text */
+  border-bottom: 1px solid #313244; /* Surface0 */
+}
+
+#workspaces button {
+  padding: 0 5px;
+  color: #6c7086;       /* Overlay0 */
+  border-radius: 3px;
+  min-width: 18px;
+  background: transparent;
+}
+
+#workspaces button.active {
+  color: #1e1e2e;
+  background: #cba6f7; /* Mauve */
+}
+
+#workspaces button:hover {
+  background: #313244; /* Surface0 */
+  color: #cdd6f4;
+}
+
+#clock {
+  color: #cdd6f4; /* Text */
+  font-weight: 500;
+}
+
+#battery {
+  color: #a6e3a1; /* Green */
+}
+
+#battery.warning {
+  color: #f9e2af; /* Yellow */
+}
+
+#battery.critical {
+  color: #f38ba8; /* Red */
+}
+
+#battery.charging {
+  color: #94e2d5; /* Teal */
+}
+
+#network {
+  color: #89dceb; /* Sky */
+}
+
+#network.disconnected {
+  color: #6c7086; /* Overlay0 */
+}
+
+#pulseaudio {
+  color: #cba6f7; /* Mauve */
+}
+
+#pulseaudio.muted {
+  color: #6c7086; /* Overlay0 */
+}
+
+#custom-mako {
+  color: #6c7086;
+  padding: 0 4px;
+}
+
+#battery, #network, #pulseaudio,
+#clock, #workspaces, #custom-mako {
+  padding: 0 6px;
+}
+
