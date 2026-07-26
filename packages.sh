@@ -69,10 +69,14 @@ install_fonts() {
 
     mkdir -p "$HOME/Downloads"
 
-    wget \
-        -q \
-        -O "$HOME/Downloads/FiraCode.zip" \
-        https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip
+    if [[ -f "$HOME/Downloads/FiraCode.zip" ]]; then
+        warn "FiraCode.zip already exists. Using existing download."
+    else
+        wget \
+            -q \
+            -O "$HOME/Downloads/FiraCode.zip" \
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip
+    fi
 
     mkdir -p "$HOME/.local/share/fonts/FiraCode"
 
@@ -85,15 +89,23 @@ install_fonts() {
 }
 
 install_ghostty() {
+    if command -v ghostty >/dev/null 2>&1; then
+        warn "Ghostty is already installed. Skipping."
+        return
+    fi
 
     info "Installing Ghostty"
 
     mkdir -p "$HOME/Downloads"
 
-    wget \
-        -q \
-        -O "$HOME/Downloads/ghostty.deb" \
-        "https://github.com/dariogriffo/ghostty-debian/releases/download/1.3.1%2B5/ghostty_1.3.1-5.trixie_amd64.deb"
+    if [[ -f "$HOME/Downloads/ghossty.deb" ]]; then
+	warn "ghostty.deb file already exists. Using existing download."
+    else
+        wget \
+            -q \
+            -O "$HOME/Downloads/ghostty.deb" \
+            "https://github.com/dariogriffo/ghostty-debian/releases/download/1.3.1%2B5/ghostty_1.3.1-5.trixie_amd64.deb"
+    fi
 
     sudo apt install -y "$HOME/Downloads/ghostty.deb"
 }
