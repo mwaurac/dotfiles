@@ -42,6 +42,8 @@ HYPRLAND_PACKAGES=(
     network-manager-gnome
 
     xdg-user-dirs
+
+    yazi
 )
 
 install_packages() {
