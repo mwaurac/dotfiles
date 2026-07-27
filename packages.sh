@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# ╭─────────────────────────────────────────────╮
+# │  packages.sh — Dotfiles Package Management  │
+# │  Lists and installs base/desktop tools      │
+# ╰─────────────────────────────────────────────╯
 
 BASE_PACKAGES=(
     git
@@ -8,19 +12,25 @@ BASE_PACKAGES=(
     zip
     build-essential
 
+    # Shell
+    zsh
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+
+    # System Utilities
     network-manager
-
-    pipewire
-    wireplumber
-
+    ufw
     brightnessctl
     playerctl
 
+    # Audio Server
+    pipewire
+    wireplumber
+
+    # Clipboard & Screenshot
     wl-clipboard
     grim
     slurp
-
-    ufw
 )
 
 HYPRLAND_PACKAGES=(
@@ -31,34 +41,26 @@ HYPRLAND_PACKAGES=(
 
     waybar
     rofi
-
     mako-notifier
 
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
 
     pavucontrol
-
     network-manager-gnome
-
     xdg-user-dirs
-
     yazi
 )
 
 install_packages() {
-
-    info "Installing packages..."
-
+    info "Installing base and desktop packages..."
     sudo apt install -y \
         "${BASE_PACKAGES[@]}" \
         "${HYPRLAND_PACKAGES[@]}"
 }
 
 configure_services() {
-
-    info "Configuring services"
-
+    info "Configuring and enabling services..."
     sudo systemctl enable NetworkManager
 
     sudo ufw allow OpenSSH
@@ -66,9 +68,7 @@ configure_services() {
 }
 
 install_fonts() {
-
-    info "Installing FiraCode Nerd Font"
-
+    info "Installing FiraCode Nerd Font..."
     mkdir -p "$HOME/Downloads"
 
     if [[ -f "$HOME/Downloads/FiraCode.zip" ]]; then
@@ -81,7 +81,6 @@ install_fonts() {
     fi
 
     mkdir -p "$HOME/.local/share/fonts/FiraCode"
-
     unzip \
         -o \
         "$HOME/Downloads/FiraCode.zip" \
@@ -96,13 +95,13 @@ install_ghostty() {
         return
     fi
 
-    info "Installing Ghostty"
-
+    info "Installing Ghostty terminal..."
     mkdir -p "$HOME/Downloads"
 
-    if [[ -f "$HOME/Downloads/ghossty.deb" ]]; then
-	warn "ghostty.deb file already exists. Using existing download."
+    if [[ -f "$HOME/Downloads/ghostty.deb" ]]; then
+        warn "ghostty.deb file already exists. Using existing download."
     else
+        # Correct typo from previous script "ghossty.deb" -> "ghostty.deb"
         wget \
             -q \
             -O "$HOME/Downloads/ghostty.deb" \
@@ -110,4 +109,31 @@ install_ghostty() {
     fi
 
     sudo apt install -y "$HOME/Downloads/ghostty.deb"
+}
+
+install_starship() {
+    if command -v starship >/dev/null 2>&1; then
+        warn "Starship prompt is already installed. Skipping."
+        return
+    fi
+
+    info "Installing Starship shell prompt..."
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+}
+
+configure_pam_hyprlock() {
+    local PAM_HYPRLOCK="/etc/pam.d/hyprlock"
+    if [ ! -f "$PAM_HYPRLOCK" ]; then
+        info "Installing PAM configuration for hyprlock..."
+        sudo tee "$PAM_HYPRLOCK" > /dev/null << 'EOF'
+#%PAM-1.0
+auth       include      common-auth
+account    include      common-account
+password   include      common-password
+session    include      common-session
+EOF
+        success "PAM configuration for hyprlock installed."
+    else
+        warn "PAM configuration for hyprlock is already present, skipping."
+    fi
 }

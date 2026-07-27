@@ -1,0 +1,95 @@
+# ╭─────────────────────────────────────────────╮
+# │  .zshrc — Catppuccin Mocha                  │
+# │  A premium, clean, and robust Zsh config    │
+# ╰─────────────────────────────────────────────╯
+
+# --- Environment & Paths ---
+export EDITOR='ghostty'
+export VISUAL='ghostty'
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+
+# Add user local bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# --- History Configuration ---
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+
+# History Options
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS       # Don't record an entry that was just recorded.
+setopt HIST_IGNORE_ALL_DUPS   # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS      # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE      # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicate entries in the history file.
+setopt SHARE_HISTORY          # Share history between all sessions.
+
+# --- Zsh Completion System ---
+autoload -Uz compinit && compinit
+
+# Modern completion style (arrow keys navigation + colors)
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# --- Plugins & Integrations ---
+
+# Load zsh-autosuggestions if installed via package manager
+DEBIAN_SUGGESTIONS="/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+HOMEBREW_SUGGESTIONS="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [ -f "$DEBIAN_SUGGESTIONS" ]; then
+    source "$DEBIAN_SUGGESTIONS"
+elif [ -f "$HOMEBREW_SUGGESTIONS" ]; then
+    source "$HOMEBREW_SUGGESTIONS"
+fi
+
+# Load zsh-syntax-highlighting if installed via package manager
+DEBIAN_HIGHLIGHT="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+HOMEBREW_HIGHLIGHT="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [ -f "$DEBIAN_HIGHLIGHT" ]; then
+    source "$DEBIAN_HIGHLIGHT"
+elif [ -f "$HOMEBREW_HIGHLIGHT" ]; then
+    source "$HOMEBREW_HIGHLIGHT"
+fi
+
+# Initialize Starship Prompt (highly optimized shell prompt)
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi
+
+# --- Aliases ---
+
+# Colorize grep and ls output
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='fgrep --color=auto'
+
+# Easier navigation & directory listings
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# Handy developer mappings
+alias g='git'
+alias gs='git status'
+alias gp='git push'
+alias gd='git diff'
+alias gc='git commit -v'
+alias yz='yazi'
+
+# Reload Shell Configuration
+alias reload='source ~/.zshrc && echo "Zsh configuration reloaded!"'
+
+# Quick Dotfile Edit Aliases
+alias conf-zsh='$EDITOR ~/dotfiles/zsh/zshrc'
+alias conf-hypr='$EDITOR ~/dotfiles/hypr/hyprland.lua'
+alias conf-waybar='$EDITOR ~/dotfiles/waybar/config.jsonc'
+alias conf-tmux='$EDITOR ~/dotfiles/tmux/tmux.conf'
+alias conf-mako='$EDITOR ~/dotfiles/mako/config'
+alias conf-rofi='$EDITOR ~/dotfiles/rofi/config.rasi'

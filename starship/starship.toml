@@ -1,0 +1,58 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[░▒▓](#a6e3a1)\
+[ 󰔎 ](bg:#a6e3a1 fg:#11111b)\
+[▓▒░](fg:#a6e3a1 bg:#313244)\
+$directory\
+[▓▒░](fg:#313244 bg:#cba6f7)\
+$git_branch\
+$git_status\
+[▓▒░](fg:#cba6f7 bg:#1e1e2e)\
+$fill\
+$cmd_duration\
+$jobs\
+$battery\
+$time\
+$line_break\
+$character"""
+
+# Fill with empty space
+[fill]
+symbol = " "
+
+[directory]
+style = "bg:#313244 fg:#cdd6f4"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = "󱑢 "
+"Music" = "󰝚 "
+"Pictures" = "󰉏 "
+
+[git_branch]
+symbol = ""
+style = "bg:#cba6f7 fg:#11111b"
+format = "[[ $symbol $branch ]($style)]($style)"
+
+[git_status]
+style = "bg:#cba6f7 fg:#11111b"
+format = "[[($all_status$ahead_behind )]($style)]($style)"
+
+[cmd_duration]
+style = "fg:#f9e2af"
+format = "[󱦟 $duration]($style) "
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "fg:#bac2de"
+format = "[󰥔 $time]($style)"
+
+[character]
+success_symbol = "[❯](bold #cba6f7)"
+error_symbol = "[❯](bold #f38ba8)"

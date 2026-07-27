@@ -1,74 +1,102 @@
+/**
+ * ╭─────────────────────────────────────────────╮
+ * │  Rofi — Catppuccin Mocha Theme              │
+ * │  Premium modern application launcher        │
+ * ╰─────────────────────────────────────────────╯
+ **/
+
 configuration {
     modi: "drun,run";
     show-icons: true;
     icon-theme: "Papirus-Dark";
     drun-display-format: "{name}";
-    font: "Fira Code 10";
+    font: "FiraCode Nerd Font 10";
+    disable-history: false;
+    sidebar-mode: false;
 }
 
 * {
-    bg:         #1e1e2e;
-    bg-alt:     #313244;
-    fg:         #cdd6f4;
-    fg-alt:     #6c7086;
-    accent:     #cba6f7;
+    bg:         #1e1e2e; /* Base */
+    bg-alt:     #313244; /* Surface0 */
+    fg:         #cdd6f4; /* Text */
+    fg-alt:     #6c7086; /* Overlay0 */
+    accent:     #cba6f7; /* Mauve */
+    active:     #a6e3a1; /* Green */
+    urgent:     #f38ba8; /* Red */
 
-    background-color: @bg;
+    background-color: transparent;
     text-color: @fg;
 }
 
 window {
     location: center;
     anchor: center;
-    width: 420px;
+    width: 500px;
     border: 2px;
     border-color: @accent;
-    border-radius: 10px;
+    border-radius: 12px;
     background-color: @bg;
+    padding: 0px;
 }
 
 mainbox {
     children: [ "inputbar", "listview" ];
+    spacing: 10px;
+    padding: 16px;
+    background-color: @bg;
 }
 
 inputbar {
     children: [ "prompt", "entry" ];
     background-color: @bg-alt;
-    padding: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 prompt {
     text-color: @accent;
     str: "󰍉";
-    padding: 0px 8px 0px 0px;
+    padding: 0px 8px 0px 4px;
+    background-color: @bg-alt;
 }
 
 entry {
-    placeholder: "Search…";
+    placeholder: "Search applications…";
+    placeholder-color: @fg-alt;
+    text-color: @fg;
+    background-color: @bg-alt;
 }
 
 listview {
-    lines: 8;
+    lines: 7;
     columns: 1;
     spacing: 6px;
-    padding: 8px;
+    padding: 4px 0px 0px 0px;
     scrollbar: false;
+    background-color: @bg;
 }
 
 element {
-    padding: 8px;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: @bg;
+    spacing: 12px;
 }
 
 element selected {
     background-color: @accent;
-    text-color: @bg;
+    text-color: #11111b; /* Crust */
 }
 
 element-icon {
     size: 24px;
+    background-color: inherit;
+    text-color: inherit;
 }
 
 element-text {
     text-color: inherit;
+    vertical-align: 0.5;
+    background-color: inherit;
 }

@@ -1,80 +1,112 @@
-/* Waybar — Catppuccin Mocha */
-/* 19px bar ≈ 0.5cm on 840 G3 1920x1080 14" panel */
+/* ╭─────────────────────────────────────────────╮
+/* │  waybar style.css — Catppuccin Mocha        │
+/* │  Floating pill modern status bar            │
+/* ╰─────────────────────────────────────────────╯ */
 
 * {
-  font-family: "FiraCode Nerd Font";
-  font-size: 10px;
+  font-family: "FiraCode Nerd Font", "Fira Code";
+  font-size: 11px;
+  font-weight: bold;
   min-height: 0;
+  transition: all 0.2s ease;
 }
 
 window#waybar {
-  background: #1e1e2e; /* Base */
-  color: #cdd6f4;      /* Text */
-  border-bottom: 1px solid #313244; /* Surface0 */
+  background: rgba(30, 30, 46, 0.92); /* Semi-transparent Catppuccin Base */
+  color: #cdd6f4;                      /* Text */
+  border: 1px solid rgba(203, 166, 247, 0.25); /* Mauve subtle border glow */
+  border-radius: 12px;
 }
 
+/* Individual Module Pillars (The Pill Design) */
+#workspaces,
+#clock,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#battery,
+#custom-mako {
+  background: #313244; /* Surface0 */
+  border-radius: 8px;
+  margin: 4px 3px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Workspace Buttons */
 #workspaces button {
-  padding: 0 5px;
+  padding: 0 6px;
   color: #6c7086;       /* Overlay0 */
-  border-radius: 3px;
-  min-width: 18px;
+  border-radius: 6px;
+  min-width: 20px;
   background: transparent;
+  margin: 3px 1px;
 }
 
 #workspaces button.active {
-  color: #1e1e2e;
-  background: #cba6f7; /* Mauve */
+  color: #11111b;       /* Crust */
+  background: #cba6f7;  /* Mauve */
+  font-weight: 800;
+  box-shadow: 0 0 6px rgba(203, 166, 247, 0.4);
 }
 
 #workspaces button:hover {
-  background: #313244; /* Surface0 */
+  background: #45475a;  /* Surface1 */
   color: #cdd6f4;
 }
 
+/* Clock Styles */
 #clock {
-  color: #cdd6f4; /* Text */
-  font-weight: 500;
+  color: #f5c2e7;       /* Pink */
 }
 
-#battery {
-  color: #a6e3a1; /* Green */
+/* System Monitor Colors */
+#cpu {
+  color: #f9e2af;       /* Yellow */
 }
 
-#battery.warning {
-  color: #f9e2af; /* Yellow */
+#memory {
+  color: #a6e3a1;       /* Green */
 }
 
-#battery.critical {
-  color: #f38ba8; /* Red */
-}
-
-#battery.charging {
-  color: #94e2d5; /* Teal */
-}
-
+/* Network Colors */
 #network {
-  color: #89dceb; /* Sky */
+  color: #89b4fa;       /* Blue */
 }
 
 #network.disconnected {
-  color: #6c7086; /* Overlay0 */
+  color: #f38ba8;       /* Red */
 }
 
+/* Audio Colors */
 #pulseaudio {
-  color: #cba6f7; /* Mauve */
+  color: #94e2d5;       /* Teal */
 }
 
 #pulseaudio.muted {
-  color: #6c7086; /* Overlay0 */
+  color: #6c7086;       /* Overlay0 */
 }
 
+/* Battery Colors based on states */
+#battery {
+  color: #a6e3a1;       /* Green */
+}
+
+#battery.warning {
+  color: #f9e2af;       /* Yellow */
+}
+
+#battery.critical {
+  color: #f38ba8;       /* Red */
+}
+
+#battery.charging {
+  color: #94e2d5;       /* Teal */
+}
+
+/* Notification Indicator (Mako) */
 #custom-mako {
-  color: #6c7086;
-  padding: 0 4px;
+  color: #fab387;       /* Peach */
+  padding: 0 10px;
 }
-
-#battery, #network, #pulseaudio,
-#clock, #workspaces, #custom-mako {
-  padding: 0 6px;
-}
-
