@@ -107,22 +107,17 @@ success "FiraCode Nerd Font installed"
 
 # Ghostty
 info "Installing Ghostty..."
-if ! command -v ghossty >/dev/null 2>&1; then
+if ! command -v ghostty >/dev/null 2>&1; then
 	TMP_DEB="$(mktemp -d)/ghostty.deb"
 
-	GHOSTTY_DEB_URL="$(curl -fsSL \
-		"https://api.github.com/repos/dariogriffo/ghostty-debian/releases/latest" |
-		grep -oP '"browser_download_url":\s*"\K[^"]+trixie[^"]+\.deb' |
-		grep "$(dpkg --print-architecture)" |
-		head -n1)"
-
-	if [ -z "$GHOSTTY_DEB_URL" ]; then
-		die "Could not find Ghostty .deb for trixie"
-	fi
-
-	curl -fL -o "$TMP_DEB" "$GHOSTTY_DEB_URL"
+	curl -fL -o "$TMP_DEB" \
+		"https://github.com/dariogriffo/ghostty-debian/releases/download/1.3.1%2B5/ghostty_1.3.1-5.trixie_amd64.deb"
 
 	sudo apt install -y "$TMP_DEB"
+
+	rm -f "$TMP_DEB"
+else
+	info "Ghostty already installed"
 fi
 success "Ghostty installed"
 
