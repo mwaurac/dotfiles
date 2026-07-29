@@ -1,0 +1,50 @@
+/* Rofi Dark Theme - Refined */
+/* Special colors */
+* {
+    background:     #0d1117;  /* Deeper, richer dark */
+    foreground:     #e6edf3;  /* Brighter, crisper white */
+    cursor:         #58a6ff;  /* Match blue accent */
+    
+    /* Base16-inspired color palette */
+    color0:         #0d1117;  /* Background */
+    color1:         #ff7b72;  /* Red */
+    color2:         #7ee787;  /* Green */
+    color3:         #ffa657;  /* Orange */
+    color4:         #58a6ff;  /* Blue - primary accent */
+    color5:         #bc8cff;  /* Purple */
+    color6:         #39c5cf;  /* Cyan */
+    color7:         #e6edf3;  /* Light gray */
+    color8:         #1c2128;  /* Subtle gray for items */
+    color9:         #ff7b72;  /* Red bright */
+    color10:        #7ee787;  /* Green bright */
+    color11:        #ffa657;  /* Orange bright */
+    color12:        #79c0ff;  /* Blue bright - lighter variant */
+    color13:        #bc8cff;  /* Purple bright */
+    color14:        #56d4dd;  /* Cyan bright */
+    color15:        #ffffff;  /* Pure white */
+    
+    /* Semantic color aliases */
+    bg:             @background;
+    fg:             @foreground;
+    bg-alt:         @color8;  /* Slightly lighter for items */
+    bg-dim:         @color0;
+    fg-dim:         #7d8590;  /* Muted gray text */
+    fg-bright:      @color15;
+    
+    accent:         @color4;  /* Blue accent */
+    accent-alt:     @color12;
+    
+    red:            @color1;
+    green:          @color2;
+    yellow:         @color3;
+    blue:           @color4;
+    magenta:        @color5;
+    cyan:           @color6;
+    
+    red-bright:     @color9;
+    green-bright:   @color10;
+    yellow-bright:  @color11;
+    blue-bright:    @color12;
+    magenta-bright: @color13;
+    cyan-bright:    @color14;
+}
