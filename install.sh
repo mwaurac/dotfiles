@@ -2,7 +2,7 @@
 set -euo pipefail
 
 readonly RED='\033[0;31m'
-readonly BLUE= '033[1;34m'
+readonly BLUE='033[1;34m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
 readonly RESET='\033[0m'
@@ -98,9 +98,9 @@ if [ ! -d "$FONT_DIR/FiraCode" ]; then
 	TMP_FONT_ZIP="$(mktemp -d)/fira.zip"
 
 	curl -fL -o "$TMP_FONT_ZIP" \
-		"https://github,com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
+		"https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
 	
-	unzip -oq "$TMP_FONT_ZIP" -d "$FONT_DIR/JetBrains"
+	unzip -oq "$TMP_FONT_ZIP" -d "$FONT_DIR/FiraCode"
 	fc-cache -f "$FONT_DIR"
 fi
 success "FiraCode Nerd Font installed"
@@ -110,7 +110,7 @@ info "Installing Ghostty..."
 if ! command -v ghossty >/dev/null 2>&1; then
 	TMP_DEB="$(mktemp -d)/ghostty.deb"
 
-	GHOSTTY_DEB_URL = "$(curl -fsSL \
+	GHOSTTY_DEB_URL="$(curl -fsSL \
 		"https://api.github.com/repos/dariogriffo/ghostty-debian/releases/latest" |
 		grep -oP '"browser_download_url":\s*"\K[^"]+trixie[^"]+\.deb' |
 		grep "$(dpkg --print-architecture)" |
@@ -124,6 +124,8 @@ if ! command -v ghossty >/dev/null 2>&1; then
 
 	sudo apt install -y "$TMP_DEB"
 fi
+success "Ghostty installed"
+
 # Zsh and Oh-my-zsh
 info "Setting up zsh + Oh My Zsh..."
 if [ ! -d "$HOME/.oh-my.zsh" ]; then
