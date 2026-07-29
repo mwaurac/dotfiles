@@ -1,80 +1,134 @@
-/* Waybar — Catppuccin Mocha */
-/* 19px bar ≈ 0.5cm on 840 G3 1920x1080 14" panel */
+@define-color base00 #181818;
+@define-color base01 #2b2e37;
+@define-color base02 #3b3e47;
+@define-color base03 #585858;
+@define-color base04 #b8b8b8;
+@define-color base05 #d8d8d8;
+@define-color base06 #e8e8e8;
+@define-color base07 #f8f8f8;
+@define-color base08 #ab4642;
+@define-color base09 #dc9656;
+@define-color base0A #f7ca88;
+@define-color base0B #a1b56c;
+@define-color base0C #86c1b9;
+@define-color base0D #7cafc2;
+@define-color base0E #ba8baf;
+@define-color base0F #a16946;
 
 * {
-  font-family: "FiraCode Nerd Font";
-  font-size: 10px;
+  font-family: 'FiraCode Nerd Font', 'Fira Code';
+  font-size: 1.0em;
+  font-weight: 400;
+  transition: none;
+  box-shadow: none;
+  text-shadow: none;
   min-height: 0;
 }
 
+/* Floating bar shell */
 window#waybar {
-  background: #1e1e2e; /* Base */
-  color: #cdd6f4;      /* Text */
-  border-bottom: 1px solid #313244; /* Surface0 */
-}
-
-#workspaces button {
-  padding: 0 5px;
-  color: #6c7086;       /* Overlay0 */
-  border-radius: 3px;
-  min-width: 18px;
   background: transparent;
 }
 
+#waybar {
+  background: @base00;
+  color: @base05;
+  border-radius: 0.55em;
+}
+
+/* Shared pill treatment for every module group */
+#workspaces,
+#clock,
+#cpu,
+#network,
+#pulseaudio,
+#battery,
+#custom-mako {
+  background: @base01;
+  border-radius: 0.45em;
+  margin: 0.18em 0.12em;
+}
+
+#workspaces {
+  padding: 0 0.15em;
+}
+
+#workspaces button {
+  padding: 0 0.45em;
+  margin: 0.10em 0.08em;
+  color: @base04;
+  border-radius: 0.35em;
+  min-width: 0.55em;
+}
+
+#workspaces button.visible {
+  color: @base06;
+}
+
 #workspaces button.active {
-  color: #1e1e2e;
-  background: #cba6f7; /* Mauve */
+  background-color: @base0D;
+  color: @base00;
+  font-weight: 700;
+}
+
+#workspaces button.urgent {
+  background-color: @base08;
+  color: @base07;
 }
 
 #workspaces button:hover {
-  background: #313244; /* Surface0 */
-  color: #cdd6f4;
+  background-color: @base02;
+  color: @base06;
 }
 
 #clock {
-  color: #cdd6f4; /* Text */
-  font-weight: 500;
+  color: @base0D;
+  font-weight: 700;
+  padding: 0 0.65em;
 }
 
-#battery {
-  color: #a6e3a1; /* Green */
-}
-
-#battery.warning {
-  color: #f9e2af; /* Yellow */
-}
-
-#battery.critical {
-  color: #f38ba8; /* Red */
-}
-
-#battery.charging {
-  color: #94e2d5; /* Teal */
+#cpu {
+  color: @base0A;
+  padding: 0 0.45em;
 }
 
 #network {
-  color: #89dceb; /* Sky */
+  color: @base0C;
+  padding: 0 0.45em;
 }
 
 #network.disconnected {
-  color: #6c7086; /* Overlay0 */
+  color: @base03;
 }
 
 #pulseaudio {
-  color: #cba6f7; /* Mauve */
+  color: @base0E;
+  padding: 0 0.45em;
 }
 
 #pulseaudio.muted {
-  color: #6c7086; /* Overlay0 */
+  color: @base03;
+}
+
+#battery {
+  color: @base0B;
+  padding: 0 0.45em;
+}
+
+#battery.warning {
+  color: @base09;
+}
+
+#battery.critical {
+  color: @base08;
+  font-weight: 700;
+}
+
+#battery.charging {
+  color: @base0C;
 }
 
 #custom-mako {
-  color: #6c7086;
-  padding: 0 4px;
+  color: @base04;
+  padding: 0 0.45em;
 }
-
-#battery, #network, #pulseaudio,
-#clock, #workspaces, #custom-mako {
-  padding: 0 6px;
-}
-

@@ -1,19 +1,24 @@
 {
   "layer": "top",
-  "height": 19,
+  "position": "top",
+  "height": 20,
+
   "spacing": 2,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/mako", "network", "pulseaudio", "battery"],
+  "modules-right": ["custom/mako", "cpu", "network", "pulseaudio", "battery"],
 
   "hyprland/workspaces": {
     "format": "{id}",
+    "disable-scroll": true,
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"m-1\" })' > /dev/null",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"m+1\" })' > /dev/null",
     "on-click": "activate"
   },
 
   "clock": {
     "format": "󰥔 {:%H:%M}",
-    "tooltip-format": "{:%A, %d %B %Y}"
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
   "network": {
@@ -23,10 +28,25 @@
     "tooltip-format": "{ipaddr} • {signalStrength}%"
   },
 
+  "cpu": {
+    "format": " {usage}% ",
+    "tooltip": false
+  },
+
   "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": "󰝟 Muted",
+    "format": "{icon} {volume} {format_source}",
+    "format-bluetooth": " {icon} {volume} {format_source}",
+    "format-bluetooth-muted": "󰝟 {icon} {format_source}",
+    "format-muted": "󰝟 {format_source}",
+    "format-source": " {volume}",
+    "format-source-muted": " ",
     "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+	"headset": " ",
+	"phone": "",
+	"portable": "",
+	"car": "",
       "default": [
         "󰕿",
         "󰖀",
@@ -52,7 +72,7 @@
       "󰁹"
     ],
     "states": {
-      "warning": 25,
+      "warning": 20,
       "critical": 10
     }
   },
