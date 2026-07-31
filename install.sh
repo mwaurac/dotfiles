@@ -57,18 +57,6 @@ sudo apt install -y \
     gnupg \
     apt-transport-https
 
-# Debian Trixie uses deb822 .sources files.
-# Keep backports isolated instead of modifying Debian's main sources.
-info "Enabling Trixie backports..."
-
-sudo tee /etc/apt/sources.list.d/trixie-backports.sources >/dev/null <<'EOF'
-Types: deb
-URIs: http://deb.debian.org/debian
-Suites: trixie-backports
-Components: main contrib non-free non-free-firmware
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-EOF
-
 sudo apt update
 
 success "APT sources ready"
@@ -104,6 +92,28 @@ sudo apt install -y \
 success "Base tooling installed"
 
 # ============================================================
+# Neovim (build from source; Debian only ships 0.10)
+# ============================================================
+
+info "Building Neovim from source..."
+
+if command -v nvim >/dev/null 2>&1 && ! nvim --version | head -1 | grep -q '^NVIM v0\.10'; then
+    info "Neovim already installed: $(nvim --version | head -1)"
+else
+    TMP_DIR="$(mktemp -d)"
+
+    git clone https://github.com/neovim/neovim "$TMP_DIR/neovim"
+    git -C "$TMP_DIR/neovim" checkout stable
+
+    make -C "$TMP_DIR/neovim" CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make -C "$TMP_DIR/neovim" install
+
+    rm -rf "$TMP_DIR"
+
+    success "Neovim installed: $(nvim --version | head -1)"
+fi
+
+# ============================================================
 # Wayland / Hyprland
 # ============================================================
 
@@ -130,6 +140,14 @@ sudo apt install -y \
 # Hyprland is kept on backports.
 sudo apt install -y -t trixie-backports hyprland
 success "Hyprland + Wayland ecosystem installed"
+
+# ============================================================
+# THEMES
+# ============================================================
+
+info "Setting up themes..."
+sudo apt install arc-theme
+success "Arc theme installed"
 
 # ============================================================
 # Audio
@@ -195,11 +213,11 @@ if [[ ! -d "$FONT_DIR/JetBrainsMono" ]]; then
 
     rm -rf "$TMP_DIR"
     fc-cache -f "$FONT_DIR"
+
+    success "JetBrains Mono Nerd Font ready"
 else
     info "JetBrains Mono Nerd Font already installed"
 fi
-
-success "JetBrains Mono Nerd Font ready"
 
 info "Installing FiraCode Nerd Font..."
 
@@ -214,11 +232,11 @@ if [[ ! -d "$FONT_DIR/FiraCode" ]]; then
 
     rm -rf "$TMP_DIR"
     fc-cache -f "$FONT_DIR"
+
+    success "FiraCode Nerd Font ready"
 else
     info "FiraCode Nerd Font already installed"
 fi
-
-success "FiraCode Nerd Font ready"
 
 # ============================================================
 # Ghostty
@@ -235,11 +253,11 @@ if ! command -v ghostty >/dev/null 2>&1; then
     sudo apt install -y "$TMP_DIR/ghostty.deb"
 
     rm -rf "$TMP_DIR"
+
+    success "Ghostty installed"
 else
     info "Ghostty already installed"
 fi
-
-success "Ghostty installed"
 
 # ============================================================
 # Zsh + Oh My Zsh
@@ -262,17 +280,55 @@ fi
 
 info "Installing Rust via rustup..."
 
-if ! command -v rustc >/dev/null 2>&1; then
+if command -v rustc >/dev/null 2>&1; then
+    info "Rust already installed: $(rustc --version)"
+else
     curl --proto '=https' \
          --tlsv1.2 \
          -sSf https://sh.rustup.rs \
          | sh -s -- -y --no-modify-path
+
+    # Make cargo/rustc available in this script immediately.
+    source "$HOME/.cargo/env"
+
+    success "Rust installed: $(rustc --version)"
 fi
 
-# Make cargo/rustc available in this script immediately.
-source "$HOME/.cargo/env"
+# ============================================================
+# Node.js (via nvm) + pnpm
+# ============================================================
 
-success "Rust installed: $(rustc --version)"
+info "Installing Node.js via nvm..."
+
+if [[ ! -s "$HOME/.nvm/nvm.sh" ]]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh | bash
+fi
+
+# In lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+
+nvm install 24
+
+success "Node.js installed: $(node -v)"
+
+info "Installing pnpm..."
+
+corepack enable pnpm
+
+success "pnpm installed: $(pnpm -v)"
+
+# ============================================================
+# OpenCode
+# ============================================================
+
+info "Installing OpenCode..."
+
+if ! command -v opencode >/dev/null 2>&1; then
+    curl -fsSL https://opencode.ai/install | bash
+    success "OpenCode installed"
+else
+    info "OpenCode already installed"
+fi
 
 # ============================================================
 # Yazi
@@ -282,11 +338,10 @@ info "Installing Yazi..."
 
 if ! command -v yazi >/dev/null 2>&1; then
     cargo install --force yazi-build
+    success "Yazi installed: $(yazi --version 2>/dev/null || echo 'restart shell if needed')"
 else
     info "Yazi already installed"
 fi
-
-success "Yazi installed: $(yazi --version 2>/dev/null || echo 'restart shell if needed')"
 
 # ============================================================
 # Zed
@@ -296,11 +351,46 @@ info "Installing Zed..."
 
 if ! command -v zed >/dev/null 2>&1; then
     curl -f https://zed.dev/install.sh | sh
+    success "Zed installed"
 else
     info "Zed already installed"
 fi
 
-success "Zed installed"
+# ============================================================
+# GitHub CLI (gh)
+# ============================================================
+
+info "Installing GitHub CLI..."
+
+if ! command -v gh >/dev/null 2>&1; then
+    sudo mkdir -p -m 755 /etc/apt/keyrings
+
+    wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+        | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null
+    sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+        | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+
+    sudo apt update
+    sudo apt install -y gh
+    success "GitHub CLI installed: $(gh --version 2>/dev/null | head -1)"
+else
+    info "GitHub CLI already installed"
+fi
+
+# ============================================================
+# Hugging Face CLI (hf)
+# ============================================================
+
+info "Installing Hugging Face CLI..."
+
+if ! command -v hf >/dev/null 2>&1; then
+    curl -LsSf https://hf.co/cli/install.sh | bash
+    success "Hugging Face CLI installed: $(hf --version 2>/dev/null || echo 'restart shell if needed')"
+else
+    info "Hugging Face CLI already installed"
+fi
 
 # ============================================================
 # Flatpak + Zen Browser
@@ -322,11 +412,44 @@ if ! flatpak info app.zen_browser.zen >/dev/null 2>&1; then
     flatpak install -y --noninteractive \
         flathub \
         app.zen_browser.zen
+    success "Zen Browser installed"
 else
     info "Zen Browser already installed"
 fi
 
-success "Zen Browser installed"
+# ============================================================
+# Jetbrains toolbox
+# ============================================================
+
+info "Installing JetBrains Toolbox..."
+
+INSTALL_DIR="/opt/jetbrains-toolbox"
+
+if [[ ! -x "$INSTALL_DIR/jetbrains-toolbox" ]]; then
+    TEMP_DIR="$(mktemp -d)"
+
+    RELEASES_API='https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release'
+    JSON="$(curl -fsSL "$RELEASES_API")"
+
+    TOOLBOX_URL="$(echo "$JSON" | jq -r '.TBA[0].downloads.linux.link')"
+    TOOLBOX_CHECKSUM_URL="$(echo "$JSON" | jq -r '.TBA[0].downloads.linux.checksumLink // empty')"
+
+    curl -fL -o "$TEMP_DIR/toolbox.tar.gz" "$TOOLBOX_URL"
+
+    if [[ -n "$TOOLBOX_CHECKSUM_URL" ]]; then
+        EXPECTED="$(curl -fsSL "$TOOLBOX_CHECKSUM_URL" | awk '{print $1}')"
+        ACTUAL="$(sha256sum "$TEMP_DIR/toolbox.tar.gz" | awk '{print $1}')"
+        [[ "$EXPECTED" == "$ACTUAL" ]] || die "JetBrains Toolbox checksum mismatch"
+    fi
+
+    sudo mkdir -p "$INSTALL_DIR"
+    sudo tar -xzf "$TEMP_DIR/toolbox.tar.gz" --strip-components=1 -C "$INSTALL_DIR"
+    sudo ln -sf "$INSTALL_DIR/bin/jetbrains-toolbox" /usr/local/bin/jetbrains-toolbox
+
+    success "JetBrains Toolbox installed"
+else
+    info "JetBrains Toolbox already installed"
+fi
 
 # ============================================================
 # User directories
