@@ -274,6 +274,12 @@ else
     info "Oh My Zsh already installed"
 fi
 
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
 # ============================================================
 # Rust
 # ============================================================
@@ -390,6 +396,19 @@ if ! command -v hf >/dev/null 2>&1; then
     success "Hugging Face CLI installed: $(hf --version 2>/dev/null || echo 'restart shell if needed')"
 else
     info "Hugging Face CLI already installed"
+fi
+
+# ============================================================
+# uv (Python package manager)
+# ============================================================
+
+info "Installing uv..."
+
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    success "uv installed: $(uv --version 2>/dev/null || echo 'restart shell if needed')"
+else
+    info "uv already installed"
 fi
 
 # ============================================================
