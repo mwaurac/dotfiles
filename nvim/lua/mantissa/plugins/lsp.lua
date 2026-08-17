@@ -34,6 +34,17 @@ return {
 			"L3MON4D3/LuaSnip",
 		},
 		opts = {
+			completion = {
+				auto_brackets = {
+					enabled = true,
+					kind_resolution = { "snippet", "function", "method" },
+				},
+
+				documentation = {
+					auto_show = true,
+				},
+			},
+
 			keymap = {
 				preset = "default",
 				["<Tab>"] = {
@@ -77,6 +88,15 @@ return {
 	{
 		"L3MON4D3/LuaSnip",
 		version = "v2.*",
+	},
+
+	-- Auto-close brackets/parens/braces while typing
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {
+			check_ts = true,
+		},
 	},
 
 	-- Formatting
