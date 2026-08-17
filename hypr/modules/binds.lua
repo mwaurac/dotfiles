@@ -31,6 +31,9 @@ hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURC
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { repeating = true })
 
+hl.bind("Print", hl.dsp.exec_cmd("f=$HOME/Pictures/Screenshots/ss-$(date +%H-%M-%S).png; grim -g \"$(slurp)\" \"$f\" && wl-copy --type image/png < \"$f\""))
+hl.bind("SUPER + Print", hl.dsp.exec_cmd("f=$HOME/Pictures/Screenshots/ss-$(date +%H-%M-%S).png; grim \"$f\" && wl-copy --type image/png < \"$f\""))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
 
 hl.bind(mainMod .. " + escape", hl.dsp.submap("logout"))
 hl.define_submap("logout", function()
@@ -49,7 +52,7 @@ hl.define_submap("logout", function()
 	hl.bind("S", function()
 		hl.dispatch(hl.dsp.submap("reset"))
 		hl.dispatch(hl.dsp.exec_cmd("hyprctl dismissnotify"))
-		hl.dispatch(hl.dsp.exec_cmd("systemctl suspend")) 
+		hl.dispatch(hl.dsp.exec_cmd("systemctl suspend"))
 	end)
 
 	hl.bind("R", function()

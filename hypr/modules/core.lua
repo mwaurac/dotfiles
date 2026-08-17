@@ -2,6 +2,7 @@ hl.config({
 	input = {
 		kb_layout = "us",
 		kb_variant = "",
+		sensitivity = 0.7,
 		touchpad = {
 			natural_scroll = true,
 			tap_to_click = true,
@@ -42,8 +43,8 @@ hl.config({
 })
 
 hl.curve("snappy", {
-    type = "bezier",
-    points = { {0.25, 1}, {0.5, 1} }
+	type = "bezier",
+	points = { { 0.25, 1 }, { 0.5, 1 } }
 })
 
 hl.animation({ leaf = "windows", enabled = true, speed = 3, bezier = "snappy", style = "slide" })

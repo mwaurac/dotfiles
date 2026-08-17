@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-#export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -172,3 +172,26 @@ alias gl='git log --oneline --graph --decorate'
 alias gd='git diff'
 # Quick reload 
 alias reload='source ~/.zshrc'
+
+# npm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# opencode
+export PATH=/home/mwaura/.opencode/bin:$PATH
+
+# cargo
+. "$HOME/.cargo/env"
+
+# kimi code
+export PATH="/home/mwaura/.kimi-code/bin:$PATH"
+
+
+# bun completions
+[ -s "/home/mwaura/.bun/_bun" ] && source "/home/mwaura/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/snap/bin:$PATH"

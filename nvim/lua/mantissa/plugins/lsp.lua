@@ -36,6 +36,18 @@ return {
 		opts = {
 			keymap = {
 				preset = "default",
+				["<Tab>"] = {
+					function(cmp)
+						if cmp.snippet_active() then
+							return cmp.accept()
+						else
+							return cmp.select_and_accept()
+						end
+					end,
+					"fallback",
+				},
+				["<S-Tab>"] = { "snippet_backward", "fallback" },
+				["<C-j>"] = { "snippet_forward", "fallback" },
 			},
 			appearance = {
 				nerd_font_variant = "mono",
