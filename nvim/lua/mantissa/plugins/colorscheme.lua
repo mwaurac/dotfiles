@@ -11,8 +11,8 @@ return {
                 highlight Normal guibg=NONE
                 highlight NormalFloat guibg=NONE
                 highlight SignColumn guibg=NONE
-                highlight LineNr guibg=NONE
-                highlight CursorLineNr guibg=NONE
+                highlight LineNr guibg=NONE guifg=#7aa2f7
+                highlight CursorLineNr guibg=NONE guifg=#e0af68 gui=bold
                 highlight EndOfBuffer guibg=NONE
             ]])
         end,
