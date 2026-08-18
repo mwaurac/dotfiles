@@ -1,3 +1,2 @@
-require("mantissa.opt")
-require("mantissa.keymaps")
+require("mantissa.config")
 require("mantissa.lazy")
